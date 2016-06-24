@@ -5,12 +5,17 @@
 </head>
 
 <body>
-	<button onclick="watered(cellName);" id="x">Next Day</button>
-
+	<button onclick="updateGame();">Next Day</button>
 </body>
 
 <script type="text/javascript">
-
+//Setting the length and width of the gameboard here.
+//Easily changed if necessary
+var length = 3;
+var width = 3;
+//Initialize currency here.
+//coins are nothing to begin with. Energy is at the MAX of 100
+var currency = {coins:0, energy:100};
 //next day button
 //switch all tiles that have plants to needing water
 
@@ -20,28 +25,35 @@ growthPoints: 0, needWater: true, nextWater: Date.now() + 5 * (ticksPerMinute)};
 
 
 //update function when NEXT DAY button is pushed
-for(var i=0; i<3; i++){
-	for(var i=0; j<3; i++){
-		function nextDay(x,y,id){
-			var maxStage = 2;
-			var teenPoints = 50;
-			var adultPoints = 100;
-			//refill energy
-			energy = 100
-			//playTransition("");
-			//playSong("");
-			if (type != "blank" && type != "house"){
-				gameboard[i][j].needWater = true;
-
-				if (stage < maxStage && growthPoints >= adultPoints){
-					//gameboard[i][j].stage = 2
-					//gameboard[i][j].needFertilizer = true
-				}
-				else if (stage < maxStage && growthPoints >= teenPoints){
-					//gameboard[i][j].stage = 1
-					//gameboard[i][j].needFertilizer = true
-				}
-			}
+function updateGame(){
+	for(var i=0; i<length; i++){
+		for(var i=0; j<width; i++){
+			nextDay(i,j)
+		}
+	}
+}
+function nextDay(x,y){
+	var cell = gameBoard[x][y];
+	var maxStage = 2;
+	var teenPoints = 50;
+	var adultPoints = 100;
+	//refill energy
+	energy = 100;
+	//playTransition("");
+	//playSong("");
+	if (cell.type != "blank" && cell.type != "house"){
+		cell.needWater = true;
+		if (cell.stage < maxStage && cell.growthPoints >= adultPoints){
+			//gameboard[i][j].stage = 2
+			cell.stage=2;
+			//gameboard[i][j].needFertilizer = true
+			cell.needFertilizer=true;
+		}
+		else if (cell.stage < maxStage && cell.growthPoints >= teenPoints){
+			//gameboard[i][j].stage = 1
+			cell.stage=1;
+			//gameboard[i][j].needFertilizer = true
+			cell.needFertilizer=true;
 		}
 	}
 }
